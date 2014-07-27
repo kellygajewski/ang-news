@@ -20,8 +20,11 @@ app.controller('PostsCtrl', function ($scope, Post) { //Post is service created 
 	};
 	//Send a POST request to our posts endpoint with our post object. The save function takes a second parameter as a function for our view to update only if the request is successful  (success callback). In the callback, we get the object returned from the server as a parameter. Firebase will return the ID in an object that's a reference to the saved post in this format: {name: (postId here)} so we can create a callback to set the item on $scope.posts
 
-	$scope.deletePost = function(index) {
-		$scope.posts.splice(index, 1);
+	$scope.deletePost = function(postId) {
+		Post.delete({id: postId}, function() {
+			delete $scope.posts[postId];
+		//$scope.posts.splice(index, 1);
+		});
 	};
 
 });
